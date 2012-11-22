@@ -3,9 +3,9 @@ feathers
 
 Haxe externs for the Feathers UI framework
 
-I've included comments and metadata from the feathers source code where possible.
-
 The library is definitely a work-in-progress and I expect there to be issues and missing implementations here and there.
+
+I've included comments and metadata from the feathers source code where possible.
 
 Feel free to report any problems :)
 
