@@ -3,12 +3,19 @@ feathers
 
 Haxe externs for the Feathers UI framework
 
+I've included comments and metadata from the feathers source code where possible.
+
+The library is definitely a work-in-progress and I expect there to be issues and missing implementations here and there.
+
+Feel free to report any problems :)
+
 --
 
 The feathers Haxe extern library can be found in lib/feathers
 (it might end up on haxelib later)
 
 To use this, you also need the starling library, a copy of which is included in lib/starling.
+
 Feathers requires a newer version of starling than the current haxelib starling library has, 
 so in lib/starling I've updated the externs with the latest changes and a rebuilt library swf.
 
