@@ -103,4 +103,29 @@ extern class FeathersEventType
 	 * Feathers components to indicate when they have lost focus.
 	 */
 	public static var FOCUS_OUT:String;//focusOut";
+	
+	/**
+	 * The <code>FeathersEventType.RENDERER_ADD</code> event type is used by
+	 * Feathers components with item renderers to indicate when a new
+	 * renderer has been added. This event type is meant to be used with
+	 * virtualized layouts where only a limited set of renderers will be
+	 * created for a data provider that may include a larger number of items.
+	 */
+	public static var RENDERER_ADD:String;// = "rendererAdd";
+
+	/**
+	 * The <code>FeathersEventType.RENDERER_REMOVE</code> event type is used
+	 * by Feathers controls with item renderers to indicate when a renderer
+	 * is removed. This event type is meant to be used with virtualized
+	 * layouts where only a limited set of renderers will be created for
+	 * a data provider that may include a larger number items.
+	 */
+	public static var RENDERER_REMOVE:String;//= "rendererRemove";
+	
+	/**
+     * The <code>FeathersEventType.ERROR</code> event type is used by
+     * by Feathers controls when an error occurs that can be caught and
+     * safely ignored.
+     */
+	public static var ERROR:String;//"error";
 }

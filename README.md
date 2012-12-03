@@ -14,17 +14,16 @@ Feel free to report any problems :)
 The feathers Haxe extern library can be found in lib/feathers
 (it might end up on haxelib later)
 
-To use this, you also need the starling library, a copy of which is included in lib/starling.
+To use it, you also need the starling library, a copy of which is included in lib/starling.
 
-Feathers requires a newer version of starling than the current haxelib starling library has, 
-so in lib/starling I've updated the externs with the latest changes and a rebuilt library swf.
+Note: Feathers requires a more recent version of Starling than the one currently on haxelib. 
+I've updated the version in lib/starling with the latest changes and a rebuilt library swf.
+(Joshua Granick, creator of the Starling externs, has pulled my updates across to the main repository, so you can just use that if you want.)
 
-The original starling lib: 
-https://github.com/jgranick/starling / haxelib
+* Starling externs by Joshua Granick: [https://github.com/jgranick/starling]
+* My fork: [https://github.com/mikedotalmond/starling]
 
-My fork with updates: 
-https://github.com/mikedotalmond/starling
-
+--
 
 The example project is a port of the feathers components explorer example - to test these externs..
 http://feathersui.com/examples/components-explorer/

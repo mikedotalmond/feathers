@@ -3,7 +3,8 @@ package feathers.examples.componentsExplorer.screens;
 import feathers.controls.Button;
 import feathers.controls.Header;
 import feathers.controls.Screen;
-import feathers.display.Image;
+import starling.display.Image;
+
 import feathers.examples.componentsExplorer.data.ButtonSettings;
 import flash.display.BitmapData;
 import flash.system.Capabilities;
@@ -16,7 +17,7 @@ import starling.textures.Texture;
 @:meta(Event(name="complete",type="starling.events.Event"))
 @:meta(Event(name="showSettings",type="starling.events.Event"))
 
-@:bitmap("lib/MetalWorksMobileTheme/images/skull.png") @:final class Skull extends flash.display.BitmapData { } 
+@:bitmap("lib/MetalWorksMobileTheme/images/skull.png") @:final class Skull extends flash.display.BitmapData { }
 
 class ButtonScreen extends Screen {
 	

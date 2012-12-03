@@ -24,6 +24,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 package feathers.controls.renderers;
 import feathers.controls.Button;
+import feathers.controls.ImageLoader;
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.core.FeathersControl;
 import feathers.core.IFeathersControl;
@@ -63,10 +64,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private static function defaultImageFactory(texture:Texture):Image
-	{
-		return new Image(texture);
-	}
+	private static function defaultLoaderFactory():ImageLoader;
 
 	/**
 	 * Constructor.
@@ -216,15 +214,15 @@ extern class BaseDefaultItemRenderer extends Button
 	 *
 	 * <p>All of the icon fields and functions, ordered by priority:</p>
 	 * <ol>
-	 *     <li><code>iconTextureFunction</code></li>
-	 *     <li><code>iconTextureField</code></li>
+	 *     <li><code>iconSourceFunction</code></li>
+	 *     <li><code>iconSourceField</code></li>
 	 *     <li><code>iconFunction</code></li>
 	 *     <li><code>iconField</code></li>
 	 * </ol>
 	 *
 	 * @see #iconFunction
-	 * @see #iconTextureField
-	 * @see #iconTextureFunction
+	 * @see #iconSourceField
+	 * @see #iconSourceFunction
 	 */
 	public var iconField(default, default):String;
 
@@ -241,22 +239,22 @@ extern class BaseDefaultItemRenderer extends Button
 	 *
 	 * <p>All of the icon fields and functions, ordered by priority:</p>
 	 * <ol>
-	 *     <li><code>iconTextureFunction</code></li>
-	 *     <li><code>iconTextureField</code></li>
+	 *     <li><code>iconSourceFunction</code></li>
+	 *     <li><code>iconSourceField</code></li>
 	 *     <li><code>iconFunction</code></li>
 	 *     <li><code>iconField</code></li>
 	 * </ol>
 	 *
 	 * @see #iconField
-	 * @see #iconTextureField
-	 * @see #iconTextureFunction
+	 * @see #iconSourceField
+	 * @see #iconSourceFunction
 	 */
 	public var iconFunction(default, default):Dynamic->DisplayObject;
 
 	/**
 	 * @private
 	 */
-	private var _iconTextureField:String;//"iconTexture";
+	private var _iconSourceField:String;//"iconTexture";
 
 	/**
 	 * The field in the item that contains a texture to be used for the
@@ -266,24 +264,24 @@ extern class BaseDefaultItemRenderer extends Button
 	 *
 	 * <p>All of the icon fields and functions, ordered by priority:</p>
 	 * <ol>
-	 *     <li><code>iconTextureFunction</code></li>
-	 *     <li><code>iconTextureField</code></li>
+	 *     <li><code>iconSourceFunction</code></li>
+	 *     <li><code>iconSourceField</code></li>
 	 *     <li><code>iconFunction</code></li>
 	 *     <li><code>iconField</code></li>
 	 * </ol>
 	 *
 	 * @see #iconImageFactory
-	 * @see #iconTextureFunction
+	 * @see #iconSourceFunction
 	 * @see #iconField
 	 * @see #iconFunction
 	 * @see starling.textures.Texture
 	 */
-	public var iconTextureField(default, default):String;
+	public var iconSourceField(default, default):String;
 
 	/**
 	 * @private
 	 */
-	private var _iconTextureFunction:Dynamic->Texture;
+	private var _iconSourceFunction:Dynamic->Texture;
 
 	/**
 	 * A function used to generate a texture to be used for the renderer's
@@ -297,19 +295,19 @@ extern class BaseDefaultItemRenderer extends Button
 	 *
 	 * <p>All of the icon fields and functions, ordered by priority:</p>
 	 * <ol>
-	 *     <li><code>iconTextureFunction</code></li>
-	 *     <li><code>iconTextureField</code></li>
+	 *     <li><code>iconSourceFunction</code></li>
+	 *     <li><code>iconSourceField</code></li>
 	 *     <li><code>iconFunction</code></li>
 	 *     <li><code>iconField</code></li>
 	 * </ol>
 	 *
 	 * @see #iconImageFactory
-	 * @see #iconTextureField
+	 * @see #iconSourceField
 	 * @see #iconField
 	 * @see #iconFunction
 	 * @see starling.textures.Texture
 	 */
-	public var iconTextureFunction(default, default):Dynamic->Texture;
+	public var iconSourceFunction(default, default):Dynamic->Texture;
 
 	/**
 	 * @private
@@ -371,11 +369,11 @@ extern class BaseDefaultItemRenderer extends Button
 	 * @see #accessoryLabelFunction
 	 */
 	public var accessoryFunction(default,default):Dynamic->DisplayObject;
-
+	
 	/**
 	 * @private
 	 */
-	private var _accessoryTextureField:String;//"accessoryTexture";
+	@:protected private var _accessorySourceField:String;//"accessoryTexture";
 
 	/**
 	 * The field in the item that contains a texture to be displayed in a
@@ -407,12 +405,12 @@ extern class BaseDefaultItemRenderer extends Button
 	 * @see #accessoryLabelField
 	 * @see #accessoryLabelFunction
 	 */
-	public var accessoryTextureField(default,default):String;
+	public var accessorySourceField(default,default):String;
 
 	/**
 	 * @private
 	 */
-	private var _accessoryTextureFunction:Dynamic->Texture;
+	private var _accessorySourceFunction:Dynamic->Texture;
 
 	/**
 	 * A function that returns a texture to be displayed in a
@@ -447,7 +445,7 @@ extern class BaseDefaultItemRenderer extends Button
 	 * @see #accessoryLabelField
 	 * @see #accessoryLabelFunction
 	 */
-	public var accessoryTextureFunction(default,default):Dynamic->Texture;
+	public var accessorySourceFunction(default,default):Dynamic->Texture;
 	/**
 	 * @private
 	 */
@@ -527,40 +525,44 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _iconImageFactory:Dynamic->Image;// = defaultImageFactory;
+	private var _iconLoaderFactory:Dynamic->Image;// = defaultImageFactory;
 
 	/**
 	 * A function that generates an <code>Image</code> that uses the result
-	 * of <code>iconTextureField</code> or <code>iconTextureFunction</code>.
+	 * of <code>iconSourceField</code> or <code>iconSourceFunction</code>.
 	 * Useful for transforming the <code>Image</code> in some way. For
 	 * example, you might want to scale it for current DPI.
 	 *
 	 * <p>The function is expected to have the following signature:</p>
 	 * <pre>function():Image</pre>
+	 * <pre>function():ImageLoader</pre>
 	 *
-	 * @see #iconTextureField;
-	 * @see #iconTextureFunction;
+	 * @see #iconSourceField;
+	 * @see #iconSourceFunction;
 	 */
-	public var iconImageFactory(default, default):Dynamic->Image;
-
+	public var iconLoaderFactory(default, default):Dynamic->Image;
+	
 	/**
 	 * @private
 	 */
-	private var _accessoryImageFactory:Dynamic->Image;// = defaultImageFactory;
-
+	private var _accessoryLoaderFactory:Dynamic->Image;// = defaultImageFactory;
+	
 	/**
-	 * A function that generates an <code>Image</code> that uses the result
-	 * of <code>accessoryTextureField</code> or <code>accessoryTextureFunction</code>.
-	 * Useful for transforming the <code>Image</code> in some way. For
-	 * example, you might want to scale it for current DPI.
+	 * A function that generates an <code>ImageLoader</code> that uses the result
+     * of <code>accessorySourceField</code> or <code>accessorySourceFunction</code>.
+     * Useful for transforming the <code>ImageLoader</code> in some way. For
+     * example, you might want to scale the texture for current DPI or apply
+     * pixel snapping.
 	 *
 	 * <p>The function is expected to have the following signature:</p>
 	 * <pre>function():Image</pre>
+	 * <pre>function():ImageLoader</pre>
 	 *
-	 * @see #accessoryTextureField;
-	 * @see #accessoryTextureFunction;
+	 * @see feathers.controls.ImageLoader
+     * @see #accessorySourceField;
+     * @see #accessorySourceFunction;
 	 */
-	public var accessoryImageFactory(default, default):Texture->Image;
+	public var accessoryLoaderFactory(default, default):Texture->Image;
 	
 	/**
 	 * @private
@@ -615,8 +617,8 @@ extern class BaseDefaultItemRenderer extends Button
 	 *
 	 * <p>All of the icon fields and functions, ordered by priority:</p>
 	 * <ol>
-	 *     <li><code>iconTextureFunction</code></li>
-	 *     <li><code>iconTextureField</code></li>
+	 *     <li><code>iconSourceFunction</code></li>
+	 *     <li><code>iconSourceField</code></li>
 	 *     <li><code>iconFunction</code></li>
 	 *     <li><code>iconField</code></li>
 	 * </ol>
@@ -657,7 +659,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private function refreshAccessoryTexture(texture:Texture):Void;
+	private function refreshAccessorySource(source:Dynamic):Void;
 	
 	/**
 	 * @private

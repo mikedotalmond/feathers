@@ -36,15 +36,12 @@ package feathers.controls;
 import feathers.controls.supportClasses.IViewPort;
 import feathers.core.FeathersControl;
 import feathers.core.PropertyProxy;
-import feathers.display.ScrollRectManager;
-import feathers.display.Sprite;
+import starling.display.Sprite;
+
 import feathers.events.FeathersEventType;
 import feathers.system.DeviceCapabilities;
 import flash.Vector;
-//import feathers.utils.math.clamp;
-//import feathers.utils.math.roundDownToNearest;
-//import feathers.utils.math.roundToNearest;
-//import feathers.utils.math.roundUpToNearest;
+
 
 import flash.errors.IllegalOperationError;
 import flash.events.MouseEvent;
@@ -614,7 +611,7 @@ extern class Scroller extends FeathersControl
 	/**
 	 * If the viewport's width is less than the scroller's width, it will
 	 * be aligned to the left, center, or right of the scroller.
-	 * 
+	 *
 	 * @see #HORIZONTAL_ALIGN_LEFT
 	 * @see #HORIZONTAL_ALIGN_CENTER
 	 * @see #HORIZONTAL_ALIGN_RIGHT
@@ -658,7 +655,7 @@ extern class Scroller extends FeathersControl
 	
 	/**
 	 * The maximum number of pixels the scroller may be scrolled vertically
-	 * (on the y-axis). This value is automatically calculated based on the 
+	 * (on the y-axis). This value is automatically calculated based on the
 	 * height of the viewport. The <code>verticalScrollPosition</code>
 	 * property may have a higher value than the maximum due to elastic
 	 * edges. However, once the user stops interacting with the scroller,
@@ -704,7 +701,7 @@ extern class Scroller extends FeathersControl
 	/**
 	 * If the viewport's height is less than the scroller's height, it will
 	 * be aligned to the top, middle, or bottom of the scroller.
-	 * 
+	 *
 	 * @see #VERTICAL_ALIGN_TOP
 	 * @see #VERTICAL_ALIGN_MIDDLE
 	 * @see #VERTICAL_ALIGN_BOTTOM
@@ -721,7 +718,7 @@ extern class Scroller extends FeathersControl
 	 * If true, the viewport will be clipped to the scroller's bounds. In
 	 * other words, anything appearing outside the scroller's bounds will
 	 * not be visible.
-	 * 
+	 *
 	 * <p>To improve performance, turn off clipping and place other display
 	 * objects over the edges of the scroller to hide the content that
 	 * bleeds outside of the scroller's bounds.</p>

@@ -25,7 +25,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 package feathers.controls;
 import feathers.core.FeathersControl;
 import feathers.core.PopUpManager;
-import feathers.display.ScrollRectManager;
 import flash.Vector;
 
 import flash.events.KeyboardEvent;
@@ -459,7 +458,7 @@ extern class Callout extends FeathersControl
 	 * left and right edges, the arrow will move up for negative values
 	 * and down for positive values.
 	 */
-	public var arrowOffset(default, default):Float;	
+	public var arrowOffset(default, default):Float;
 	
 	
 	/**

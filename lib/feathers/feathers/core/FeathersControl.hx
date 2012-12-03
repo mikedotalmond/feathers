@@ -26,9 +26,9 @@ package feathers.core;
 
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.controls.text.StageTextTextEditor;
-import feathers.display.Sprite;
 import feathers.events.FeathersEventType;
 import feathers.events.FeathersEventType;
+import starling.display.Sprite;
 
 import flash.geom.Matrix;
 import flash.geom.Point;
@@ -121,6 +121,14 @@ extern class FeathersControl extends Sprite, implements IFeathersControl
 	 * @private
 	 */
 	private static var INVALIDATION_FLAG_TEXT_EDITOR:String;
+	
+	
+	 /**
+     * @private
+     * Used for clipping.
+	 * @see #clipRect
+	 */
+    @:protected private static var currentScissorRect:Rectangle;
 
 	/**
 	 * A function used by all UI controls that support text renderers to
@@ -289,4 +297,6 @@ extern class FeathersControl extends Sprite, implements IFeathersControl
 	 * Override to customize layout and to adjust properties of children.
 	 */
 	@:protected function draw():Void;
+	
+	
 }

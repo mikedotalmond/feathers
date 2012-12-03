@@ -397,7 +397,7 @@ extern class ScrollBar extends FeathersControl, implements IScrollBar
 	 * which is in a <code>Scroller</code> which is in a <code>List</code>,
 	 * you can use the following syntax:</p>
 	 * <pre>list.scrollerProperties.&#64;verticalScrollBarProperties.&#64;thumbProperties.defaultSkin = new Image(texture);</pre>
-	 * 
+	 *
 	 * @see feathers.controls.Button
 	 */
 	public var minimumTrackProperties(default,default):Dynamic;
@@ -418,7 +418,7 @@ extern class ScrollBar extends FeathersControl, implements IScrollBar
 	 * which is in a <code>Scroller</code> which is in a <code>List</code>,
 	 * you can use the following syntax:</p>
 	 * <pre>list.scrollerProperties.&#64;verticalScrollBarProperties.&#64;thumbProperties.defaultSkin = new Image(texture);</pre>
-	 * 
+	 *
 	 * @see feathers.controls.Button
 	 */
 	public var maximumTrackProperties(default,default):Dynamic;
@@ -439,7 +439,7 @@ extern class ScrollBar extends FeathersControl, implements IScrollBar
 	 * which is in a <code>Scroller</code> which is in a <code>List</code>,
 	 * you can use the following syntax:</p>
 	 * <pre>list.scrollerProperties.&#64;verticalScrollBarProperties.&#64;thumbProperties.defaultSkin = new Image(texture);</pre>
-	 * 
+	 *
 	 * @see feathers.controls.Button
 	 */
 	public var thumbProperties(default,default):Dynamic;
@@ -461,7 +461,7 @@ extern class ScrollBar extends FeathersControl, implements IScrollBar
 	 * which is in a <code>Scroller</code> which is in a <code>List</code>,
 	 * you can use the following syntax:</p>
 	 * <pre>list.scrollerProperties.&#64;verticalScrollBarProperties.&#64;thumbProperties.defaultSkin = new Image(texture);</pre>
-	 * 
+	 *
 	 * @see feathers.controls.Button
 	 */
 	public var decrementButtonProperties(default, default):Dynamic;
@@ -482,7 +482,7 @@ extern class ScrollBar extends FeathersControl, implements IScrollBar
 	 * which is in a <code>Scroller</code> which is in a <code>List</code>,
 	 * you can use the following syntax:</p>
 	 * <pre>list.scrollerProperties.&#64;verticalScrollBarProperties.&#64;thumbProperties.defaultSkin = new Image(texture);</pre>
-	 * 
+	 *
 	 * @see feathers.controls.Button
 	 */
 	public var incrementButtonProperties(default,default):Dynamic;
@@ -567,11 +567,6 @@ extern class ScrollBar extends FeathersControl, implements IScrollBar
 	 * @private
 	 */
 	private function layoutThumb():Void;
-	
-	/**
-	 * @private
-	 */
-	private function layoutTrackWithScrollRect():Void;
 	
 	/**
 	 * @private

@@ -30,7 +30,6 @@ import feathers.core.ITextRenderer;
 import feathers.core.IToggle;
 import feathers.core.PropertyProxy;
 import feathers.core.PropertyProxy;
-import feathers.display.ScrollRectManager;
 import feathers.skins.StateWithToggleValueSelector;
 import flash.Vector;
 
@@ -159,7 +158,7 @@ extern class Button extends FeathersControl, implements IToggle
 	/**
 	 * Indicates if the button is selected or not. The button may be
 	 * selected programmatically, even if <code>isToggle</code> is false.
-	 * 
+	 *
 	 * @see #isToggle
 	 */
 	public var isSelected(default, default):Bool;
@@ -174,12 +173,12 @@ extern class Button extends FeathersControl, implements IToggle
 	 * The space, in pixels, between the icon and the label. Applies to
 	 * either horizontal or vertical spacing, depending on the value of
 	 * <code>iconPosition</code>.
-	 * 
+	 *
 	 * <p>If <code>gap</code> is set to <code>Float.POSITIVE_INFINITY</code>,
 	 * the label and icon will be positioned as far apart as possible. In
 	 * other words, they will be positioned at the edges of the button,
 	 * adjusted for padding.</p>
-	 * 
+	 *
 	 * @see #iconPosition
 	 */
 	public var gap(default, default):Float;
@@ -219,7 +218,7 @@ extern class Button extends FeathersControl, implements IToggle
 	/**
 	 * The minimum space, in pixels, between the button's left edge and the
 	 * button's content.
-	 */	
+	 */
 	public var paddingLeft(default, default):Float;
 	
 	
@@ -263,7 +262,7 @@ extern class Button extends FeathersControl, implements IToggle
 	/**
 	 * The skin used when no other skin is defined for the current state.
 	 * Intended for use when multiple states should use the same skin.
-	 * 
+	 *
 	 * @see #upSkin
 	 * @see #downSkin
 	 * @see #hoverSkin
@@ -327,7 +326,7 @@ extern class Button extends FeathersControl, implements IToggle
 	/**
 	 * The icon used when no other icon is defined for the current state.
 	 * Intended for use when multiple states should use the same icon.
-	 * 
+	 *
 	 * @see #upIcon
 	 * @see #downIcon
 	 * @see #hoverIcon

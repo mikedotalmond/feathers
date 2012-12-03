@@ -24,6 +24,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 package feathers.display;
 import feathers.textures.Scale3Textures;
+import starling.display.Sprite;
 
 import flash.errors.IllegalOperationError;
 import flash.geom.Matrix;

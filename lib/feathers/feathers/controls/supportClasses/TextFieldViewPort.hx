@@ -25,7 +25,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 package feathers.controls.supportClasses;
 
 import feathers.core.FeathersControl;
-import feathers.display.ScrollRectManager;
 
 import flash.display.Sprite;
 import flash.geom.Matrix;

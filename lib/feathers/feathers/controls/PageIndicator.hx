@@ -24,7 +24,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 package feathers.controls;
 import feathers.core.FeathersControl;
-import feathers.display.ScrollRectManager;
+
 import feathers.layout.HorizontalLayout;
 import feathers.layout.ILayout;
 import feathers.layout.IVirtualLayout;

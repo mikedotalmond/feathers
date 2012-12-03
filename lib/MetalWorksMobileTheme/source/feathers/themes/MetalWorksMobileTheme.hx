@@ -85,8 +85,8 @@ import starling.events.ResizeEvent;
 import starling.textures.Texture;
 import starling.textures.TextureAtlas;
 
-@:bitmap("lib/MetalWorksMobileTheme/images/metalworks.png") @:final class ATLAS_IMAGE extends flash.display.BitmapData { } 
-@:file("lib/MetalWorksMobileTheme/images/metalworks.xml") @:final class ATLAS_XML extends ByteArray { } 
+@:bitmap("lib/MetalWorksMobileTheme/images/metalworks.png") @:final class ATLAS_IMAGE extends flash.display.BitmapData { }
+@:file("lib/MetalWorksMobileTheme/images/metalworks.xml") @:final class ATLAS_XML extends ByteArray { }
 
 class MetalWorksMobileTheme extends DisplayListWatcher {
 	
@@ -644,8 +644,8 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 		renderer.minWidth = renderer.minHeight = 88 * scale;
 		renderer.minTouchWidth = renderer.minTouchHeight = 88 * scale;
 
-		renderer.accessoryImageFactory = imageFactory;
-		renderer.iconImageFactory = imageFactory;
+		renderer.accessoryLoaderFactory = imageFactory;
+		renderer.iconLoaderFactory = imageFactory;
 	}
 
 	private function pickerListItemRendererInitializer(renderer:BaseDefaultItemRenderer):Void

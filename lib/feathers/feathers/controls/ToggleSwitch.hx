@@ -27,7 +27,6 @@ import feathers.core.FeathersControl;
 import feathers.core.ITextRenderer;
 import feathers.core.IToggle;
 import feathers.core.PropertyProxy;
-import feathers.display.IDisplayObjectWithScrollRect;
 import feathers.system.DeviceCapabilities;
 
 import flash.geom.Point;
@@ -441,7 +440,7 @@ extern class ToggleSwitch extends FeathersControl, implements IToggle
 	 * which is in a <code>Scroller</code> which is in a <code>List</code>,
 	 * you can use the following syntax:</p>
 	 * <pre>list.scrollerProperties.&#64;verticalScrollBarProperties.&#64;thumbProperties.defaultSkin = new Image(texture);</pre>
-	 * 
+	 *
 	 * @see feathers.controls.Button
 	 */
 	public var onTrackProperties(default, default):Dynamic;
@@ -463,7 +462,7 @@ extern class ToggleSwitch extends FeathersControl, implements IToggle
 	 * which is in a <code>Scroller</code> which is in a <code>List</code>,
 	 * you can use the following syntax:</p>
 	 * <pre>list.scrollerProperties.&#64;verticalScrollBarProperties.&#64;thumbProperties.defaultSkin = new Image(texture);</pre>
-	 * 
+	 *
 	 * @see feathers.controls.Button
 	 */
 	public var offTrackProperties(default, default):Dynamic;
@@ -485,7 +484,7 @@ extern class ToggleSwitch extends FeathersControl, implements IToggle
 	 * which is in a <code>Scroller</code> which is in a <code>List</code>,
 	 * you can use the following syntax:</p>
 	 * <pre>list.scrollerProperties.&#64;verticalScrollBarProperties.&#64;thumbProperties.defaultSkin = new Image(texture);</pre>
-	 * 
+	 *
 	 * @see feathers.controls.Button
 	 */
 	public var thumbProperties(default, default):Dynamic;
