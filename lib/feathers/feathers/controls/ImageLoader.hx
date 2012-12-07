@@ -39,6 +39,21 @@ import starling.textures.Texture;
 import starling.utils.MatrixUtil;
 
 /**
+ * Dispatched when the source content finishes loading.
+ *
+ * @eventType starling.events.Event.COMPLETE
+ */
+@:meta(Event(name="complete",type="starling.events.Event"))
+
+/**
+ * Dispatched if an error occurs while loading the source content.
+ *
+ * @eventType feathers.events.FeathersEventType.ERROR
+ */
+@:meta(Event(name="error",type="starling.events.Event"))
+
+
+/**
 * Displays an image, either from a <code>Texture</code> or loaded from a
 * URL.
 */
@@ -82,6 +97,27 @@ public function new():Void;
 	@:protected private var _isLoaded:Bool;// = false;
 	public var isLoaded(default, null):Bool;
 
+
+	/**
+	 * The scale of the texture.
+	 */
+	public var textureScale(default, default):Float;
+
+	/**
+	 * The smoothing value to use on the internal <code>Image</code>.
+	 *
+	 * @see starling.textures.TextureSmoothing
+	 * @see starling.display.Image#smoothing
+	 */
+	public var smoothing(default, default):String;
+
+	/**
+	 * The tint value to use on the internal <code>Image</code>.
+	 *
+	 * @see starling.display.Image#color
+	 */
+	public var color(default,default):UInt;
+
 	
 	/**
 	 * Determines if the image should be snapped to the nearest global whole
@@ -113,6 +149,11 @@ public function new():Void;
 	 */
 	@:protected private function commitData():Void;
 
+	/**
+	 * @private
+	 */
+	@:protected private function commitStyles():Void;
+	
 	/**
 	 * @private
 	 */

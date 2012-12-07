@@ -92,20 +92,31 @@ extern class ScrollBar extends FeathersControl, implements IScrollBar
 	public static var DIRECTION_VERTICAL:String;//"vertical";
 
 	/**
-	 * The scroll bar has only one track, stretching to fill the full length
-	 * of the scroll bar. In this layout mode, the minimum track is
-	 * displayed and fills the entire length of the scroll bar. The maximum
-	 * track will not exist.
+	 * The scroll bar has only one track, that fills the full length of the
+	 * scroll bar. In this layout mode, the "minimum" track is displayed and
+	 * fills the entire length of the scroll bar. The maximum track will not
+	 * exist.
 	 */
-	public static var TRACK_LAYOUT_MODE_SINGLE:String;//"single";
+	public static var TRACK_LAYOUT_MODE_SINGLE:String;// = "single";
 
 	/**
-	 * The scroll bar's minimum and maximum track will by resized by
-	 * changing their width and height values. Consider using a special
-	 * display object such as a Scale9Image, Scale3Image or a TiledImage if
-	 * the skins should be resizable.
+	 * The scroll bar has two tracks, stretching to fill each side of the
+	 * scroll bar with the thumb in the middle. The tracks will be resized
+	 * as the thumb moves. This layout mode is designed for scroll bars
+	 * where the two sides of the track may be colored differently to show
+	 * the value "filling up" as the slider is dragged or to highlight the
+	 * track when it is triggered to scroll by a page instead of a step.
+	 *
+	 * <p>Since the width and height of the tracks will change, consider
+	 * sing a special display object such as a <code>Scale9Image</code>,
+	 * <code>Scale3Image</code> or a <code>TiledImage</code> that is
+	 * designed to be resized dynamically.</p>
+	 *
+	 * @see feathers.display.Scale9Image
+	 * @see feathers.display.Scale3Image
+	 * @see feathers.display.TiledImage
 	 */
-	public static var TRACK_LAYOUT_MODE_STRETCH:String;//"stretch";
+	public static var TRACK_LAYOUT_MODE_MIN_MAX:String;// = "minMax";
 
 	/**
 	 * The scroll bar's minimum and maximum tracks will be resized and
@@ -238,6 +249,10 @@ extern class ScrollBar extends FeathersControl, implements IScrollBar
 	 * Determines if the scroll bar's thumb can be dragged horizontally or
 	 * vertically. When this value changes, the scroll bar's width and
 	 * height values do not change automatically.
+	 *
+	 * @default DIRECTION_HORIZONTAL
+	 * @see #DIRECTION_HORIZONTAL
+	 * @see #DIRECTION_VERTICAL
 	 */
 	public var direction(default,default):String;
 
@@ -374,10 +389,14 @@ extern class ScrollBar extends FeathersControl, implements IScrollBar
 	 */
 	private var _trackLayoutMode:String;//TRACK_LAYOUT_MODE_SINGLE;
 
-	@:meta(Inspectable(type="String",enumeration="single,stretch,scroll"))
+	//@:meta(Inspectable(type="String",enumeration="single,stretch,scroll"))
 	/**
 	 * Determines how the minimum and maximum track skins are positioned and
 	 * sized.
+	 *
+	 * @default TRACK_LAYOUT_MODE_SINGLE
+	 * @see #TRACK_LAYOUT_MODE_SINGLE
+	 * @see #TRACK_LAYOUT_MODE_MIN_MAX
 	 */
 	public var trackLayoutMode(default,default):String;
 
@@ -521,148 +540,148 @@ extern class ScrollBar extends FeathersControl, implements IScrollBar
 	/**
 	 * @private
 	 */
-	private function autoSizeIfNeeded():Bool;
+	@:protected private function autoSizeIfNeeded():Bool;
 
 	/**
 	 * @private
 	 */
-	private function refreshThumbStyles():Void;
+	@:protected private function refreshThumbStyles():Void;
 
 	/**
 	 * @private
 	 */
-	private function refreshMinimumTrackStyles():Void;
+	@:protected private function refreshMinimumTrackStyles():Void;
 
 	/**
 	 * @private
 	 */
-	private function refreshMaximumTrackStyles():Void;
+	@:protected private function refreshMaximumTrackStyles():Void;
 
 	/**
 	 * @private
 	 */
-	private function refreshDecrementButtonStyles():Void;
+	@:protected private function refreshDecrementButtonStyles():Void;
 
 	/**
 	 * @private
 	 */
-	private function refreshIncrementButtonStyles():Void;
+	@:protected private function refreshIncrementButtonStyles():Void;
 	
 	/**
 	 * @private
 	 */
-	private function createOrDestroyMaximumTrackIfNeeded():Void;
+	@:protected private function createOrDestroyMaximumTrackIfNeeded():Void;
 	
 	/**
 	 * @private
 	 */
-	private function layout():Void;
+	@:protected private function layout():Void;
 
 	/**
 	 * @private
 	 */
-	private function layoutStepButtons():Void;
+	@:protected private function layoutStepButtons():Void;
 	
 	/**
 	 * @private
 	 */
-	private function layoutThumb():Void;
+	@:protected private function layoutThumb():Void;
 	
 	/**
 	 * @private
 	 */
-	private function layoutTrackWithStretch():Void;
+	@:protected private function layoutTrackWithMinMax():Void;
 	
 	/**
 	 * @private
 	 */
-	private function layoutTrackWithSingle():Void;
+	@:protected private function layoutTrackWithSingle():Void;
 	
 	/**
 	 * @private
 	 */
-	private function locationToValue(location:Point):Float;
+	@:protected private function locationToValue(location:Point):Float;
 	
 	/**
 	 * @private
 	 */
-	private function decrement():Void;
+	@:protected private function decrement():Void;
 
 	/**
 	 * @private
 	 */
-	private function increment():Void;
+	@:protected private function increment():Void;
 
 	/**
 	 * @private
 	 */
-	private function adjustPage():Void;
+	@:protected private function adjustPage():Void;
 	/**
 	 * @private
 	 */
-	private function startRepeatTimer(action:Function):Void;
+	@:protected private function startRepeatTimer(action:Function):Void;
 
 	/**
 	 * @private
 	 */
-	private function thumbProperties_onChange(proxy:PropertyProxy, name:Dynamic):Void;
+	@:protected private function thumbProperties_onChange(proxy:PropertyProxy, name:Dynamic):Void;
 
 	/**
 	 * @private
 	 */
-	private function minimumTrackProperties_onChange(proxy:PropertyProxy, name:Dynamic):Void;
+	@:protected private function minimumTrackProperties_onChange(proxy:PropertyProxy, name:Dynamic):Void;
 
 	/**
 	 * @private
 	 */
-	private function maximumTrackProperties_onChange(proxy:PropertyProxy, name:Dynamic):Void;
+	@:protected private function maximumTrackProperties_onChange(proxy:PropertyProxy, name:Dynamic):Void;
 
 	/**
 	 * @private
 	 */
-	private function decrementButtonProperties_onChange(proxy:PropertyProxy, name:Dynamic):Void;
+	@:protected private function decrementButtonProperties_onChange(proxy:PropertyProxy, name:Dynamic):Void;
 
 	/**
 	 * @private
 	 */
-	private function incrementButtonProperties_onChange(proxy:PropertyProxy, name:Dynamic):Void;
+	@:protected private function incrementButtonProperties_onChange(proxy:PropertyProxy, name:Dynamic):Void;
 
 	/**
 	 * @private
 	 */
-	private function removedFromStageHandler(event:Event):Void;
+	@:protected private function removedFromStageHandler(event:Event):Void;
 
 	/**
 	 * @private
 	 */
-	private function track_touchHandler(event:TouchEvent):Void;
+	@:protected private function track_touchHandler(event:TouchEvent):Void;
 	/**
 	 * @private
 	 */
-	private function thumb_touchHandler(event:TouchEvent):Void;
+	@:protected private function thumb_touchHandler(event:TouchEvent):Void;
 
 	/**
 	 * @private
 	 */
-	private function decrementButton_touchHandler(event:TouchEvent):Void;
+	@:protected private function decrementButton_touchHandler(event:TouchEvent):Void;
 	
 	/**
 	 * @private
 	 */
-	private function decrementButton_triggeredHandler(event:Event):Void;
+	@:protected private function decrementButton_triggeredHandler(event:Event):Void;
 
 	/**
 	 * @private
 	 */
-	private function incrementButton_touchHandler(event:TouchEvent):Void;
+	@:protected private function incrementButton_touchHandler(event:TouchEvent):Void;
 
 	/**
 	 * @private
 	 */
-	private function incrementButton_triggeredHandler(event:Event):Void;
+	@:protected private function incrementButton_triggeredHandler(event:Event):Void;
 
 	/**
 	 * @private
 	 */
-	private function repeatTimer_timerHandler(event:TimerEvent):Void;
+	@:protected private function repeatTimer_timerHandler(event:TimerEvent):Void;
 }

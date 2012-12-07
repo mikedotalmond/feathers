@@ -52,16 +52,7 @@ import starling.textures.Texture;
  * @see flash.text.TextField
  */
 extern class TextFieldTextRenderer extends FeathersControl, implements ITextRenderer {
-	/**
-	 * @private
-	 */
-	private static var HELPER_POINT:Point;//new Point();
-
-	/**
-	 * @private
-	 */
-	private static var HELPER_MATRIX:Matrix;//new Matrix();
-
+	
 	/**
 	 * Constructor.
 	 */
@@ -70,42 +61,52 @@ extern class TextFieldTextRenderer extends FeathersControl, implements ITextRend
 	/**
 	 * @private
 	 */
-	private var _textField:TextField;
+	@:protected private var _textField:TextField;
 
 	/**
 	 * @private
 	 */
-	private var _textSnapshot:Image;
+	@:protected private var _textSnapshot:Image;
 
 	/**
 	 * @private
 	 */
-	private var _textSnapshotBitmapData:BitmapData;
+	@:protected private var _textSnapshotBitmapData:BitmapData;
+	
+	/**
+	 * @private
+	 */
+	@:protected private var _previousTextFieldWidth:Float;// = 0;
 
 	/**
 	 * @private
 	 */
-	private var _snapshotWidth:Int;//0;
+	@:protected private var _previousTextFieldHeight:Float;// = 0;
 
 	/**
 	 * @private
 	 */
-	private var _snapshotHeight:Int;//0;
+	@:protected private var _snapshotWidth:Int;//0;
 
 	/**
 	 * @private
 	 */
-	private var _needsNewBitmap:Bool;//false;
+	@:protected private var _snapshotHeight:Int;//0;
 
 	/**
 	 * @private
 	 */
-	private var _frameCount:Int;//0;
+	@:protected private var _needsNewBitmap:Bool;//false;
 
 	/**
 	 * @private
 	 */
-	private var _text:String;//"";
+	@:protected private var _frameCount:Int;//0;
+
+	/**
+	 * @private
+	 */
+	@:protected private var _text:String;//"";
 
 	/**
 	 * @inheritDoc
@@ -115,7 +116,7 @@ extern class TextFieldTextRenderer extends FeathersControl, implements ITextRend
 	/**
 	 * @private
 	 */
-	private var _textFormat:TextFormat;
+	@:protected private var _textFormat:TextFormat;
 
 	/**
 	 * The font and styles used to draw the text.
@@ -130,7 +131,7 @@ extern class TextFieldTextRenderer extends FeathersControl, implements ITextRend
 	/**
 	 * @private
 	 */
-	private var _embedFonts:Bool;//false;
+	@:protected private var _embedFonts:Bool;//false;
 
 	/**
 	 * Determines if the TextField should use an embedded font or not.
@@ -140,7 +141,7 @@ extern class TextFieldTextRenderer extends FeathersControl, implements ITextRend
 	/**
 	 * @private
 	 */
-	private var _wordWrap:Bool;//false;
+	@:protected private var _wordWrap:Bool;//false;
 
 	/**
 	 * Determines if the TextField wraps text to the next line.
@@ -150,7 +151,7 @@ extern class TextFieldTextRenderer extends FeathersControl, implements ITextRend
 	/**
 	 * @private
 	 */
-	private var _isHTML:Bool;//false;
+	@:protected private var _isHTML:Bool;//false;
 
 	/**
 	 * Determines if the TextField should display the text as HTML or not.
@@ -160,11 +161,12 @@ extern class TextFieldTextRenderer extends FeathersControl, implements ITextRend
 	/**
 	 * @private
 	 */
-	private var _snapToPixels:Bool;//true;
+	@:protected private var _snapToPixels:Bool;//true;
 
 	/**
 	 * Determines if the text should be snapped to the nearest whole pixel
-	 * when rendered.
+	 * when rendered. When this is <code>false</code>, text may be displayed
+	 * on sub-pixels, which often results in blurred rendering.
 	 */
 	public var snapToPixels(default, default):Bool;
 

@@ -30,6 +30,7 @@ import feathers.controls.Callout;
 import feathers.controls.Check;
 import feathers.controls.GroupedList;
 import feathers.controls.Header;
+import feathers.controls.ImageLoader;
 import feathers.controls.Label;
 import feathers.controls.List;
 import feathers.controls.PageIndicator;
@@ -384,8 +385,8 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 		setInitializerForClass(Button, simpleButtonInitializer, Slider.DEFAULT_CHILD_NAME_THUMB);
 		setInitializerForClass(Button, pickerListButtonInitializer, PickerList.DEFAULT_CHILD_NAME_BUTTON);
 		setInitializerForClass(Button, tabInitializer, TabBar.DEFAULT_CHILD_NAME_TAB);
-		setInitializerForClass(Button, sliderTrackInitializer, Slider.DEFAULT_CHILD_NAME_MINIMUM_TRACK);
-		setInitializerForClass(Button, sliderTrackInitializer, Slider.DEFAULT_CHILD_NAME_MAXIMUM_TRACK);
+		setInitializerForClass(Button, nothingInitializer, Slider.DEFAULT_CHILD_NAME_MINIMUM_TRACK);
+		setInitializerForClass(Button, nothingInitializer, Slider.DEFAULT_CHILD_NAME_MAXIMUM_TRACK);
 		setInitializerForClass(Button, toggleSwitchTrackInitializer, ToggleSwitch.DEFAULT_CHILD_NAME_ON_TRACK);
 		setInitializerForClass(Button, nothingInitializer, SimpleScrollBar.DEFAULT_CHILD_NAME_THUMB);
 		setInitializerForClass(ButtonGroup, buttonGroupInitializer);
@@ -424,11 +425,10 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 	{
 		return new Image(pageIndicatorSelectedSkinTexture);
 	}
-
-	private function imageFactory(texture:Texture):Image
-	{
-		var image:Image = new Image(texture);
-		image.scaleX = image.scaleY = scale;
+	
+	private function imageLoaderFactory():ImageLoader {
+		var image:ImageLoader = new ImageLoader();
+		image.textureScale = scale;
 		return image;
 	}
 
@@ -576,19 +576,6 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 		track.stateToSkinFunction = skinSelector.updateValue;
 	}
 
-	private function sliderTrackInitializer(track:Button):Void
-	{
-		var skinSelector:Scale9ImageStateValueSelector = new Scale9ImageStateValueSelector();
-		skinSelector.defaultValue = backgroundSkinTextures;
-		skinSelector.setValueForState(buttonDownSkinTextures, Button.STATE_DOWN, false);
-		skinSelector.setValueForState(backgroundDisabledSkinTextures, Button.STATE_DISABLED, false);
-		skinSelector.imageProperties =
-		{
-			textureScale: scale
-		};
-		track.stateToSkinFunction = skinSelector.updateValue;
-	}
-
 	private function tabInitializer(tab:Button):Void
 	{
 		var defaultSkin:Quad = new Quad(88 * scale, 88 * scale, 0x1a1a1a);
@@ -641,11 +628,16 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 		renderer.paddingLeft = 32 * scale;
 		renderer.paddingRight = 24 * scale;
 		renderer.gap = 20 * scale;
+		
+		renderer.iconPosition = Button.ICON_POSITION_LEFT;
+		renderer.accessoryGap = Math.POSITIVE_INFINITY;
+		renderer.accessoryPosition = BaseDefaultItemRenderer.ACCESSORY_POSITION_RIGHT;
+		
 		renderer.minWidth = renderer.minHeight = 88 * scale;
 		renderer.minTouchWidth = renderer.minTouchHeight = 88 * scale;
 
-		renderer.accessoryLoaderFactory = imageFactory;
-		renderer.iconLoaderFactory = imageFactory;
+		renderer.accessoryLoaderFactory = imageLoaderFactory;
+		renderer.iconLoaderFactory = imageLoaderFactory;
 	}
 
 	private function pickerListItemRendererInitializer(renderer:BaseDefaultItemRenderer):Void
@@ -678,6 +670,11 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 		renderer.paddingLeft = 32 * scale;
 		renderer.paddingRight = 24 * scale;
 		renderer.gap = 12 * scale;
+		
+		renderer.iconPosition = Button.ICON_POSITION_LEFT;
+		renderer.accessoryGap = Math.POSITIVE_INFINITY;
+		renderer.accessoryPosition = BaseDefaultItemRenderer.ACCESSORY_POSITION_RIGHT;
+		
 		renderer.minWidth = renderer.minHeight = 88 * scale;
 		renderer.minTouchWidth = renderer.minTouchHeight = 88 * scale;
 	}
@@ -705,6 +702,11 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 		renderer.paddingLeft = 32 * scale;
 		renderer.paddingRight = 24 * scale;
 		renderer.gap = 20 * scale;
+		
+		renderer.iconPosition = Button.ICON_POSITION_LEFT;
+		renderer.accessoryGap = Math.POSITIVE_INFINITY;
+		renderer.accessoryPosition = BaseDefaultItemRenderer.ACCESSORY_POSITION_RIGHT;
+			
 		renderer.minWidth = renderer.minHeight = 88 * scale;
 		renderer.minTouchWidth = renderer.minTouchHeight = 88 * scale;
 	}
@@ -740,6 +742,8 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 		renderer.paddingLeft = renderer.paddingRight = 16 * scale;
 		renderer.minWidth = renderer.minHeight = 44 * scale;
 		renderer.minTouchWidth = renderer.minTouchHeight = 44 * scale;
+		
+		renderer.contentLoaderFactory = imageLoaderFactory;
 	}
 
 	private function footerRendererInitializer(renderer:DefaultGroupedListHeaderOrFooterRenderer):Void
@@ -753,6 +757,8 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 		renderer.paddingLeft = renderer.paddingRight = 16 * scale;
 		renderer.minWidth = renderer.minHeight = 44 * scale;
 		renderer.minTouchWidth = renderer.minTouchHeight = 44 * scale;
+		
+		renderer.contentLoaderFactory = imageLoaderFactory;
 	}
 
 	private function insetHeaderRendererInitializer(renderer:DefaultGroupedListHeaderOrFooterRenderer):Void
@@ -767,6 +773,8 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 		renderer.paddingLeft = renderer.paddingRight = 32 * scale;
 		renderer.minWidth = renderer.minHeight = 66 * scale;
 		renderer.minTouchWidth = renderer.minTouchHeight = 44 * scale;
+		
+		renderer.contentLoaderFactory = imageLoaderFactory;
 	}
 
 	private function insetFooterRendererInitializer(renderer:DefaultGroupedListHeaderOrFooterRenderer):Void
@@ -781,6 +789,8 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 		renderer.paddingLeft = renderer.paddingRight = 32 * scale;
 		renderer.minWidth = renderer.minHeight = 66 * scale;
 		renderer.minTouchWidth = renderer.minTouchHeight = 44 * scale;
+		
+		renderer.contentLoaderFactory = imageLoaderFactory;
 	}
 
 	private function radioInitializer(radio:Radio):Void
@@ -831,20 +841,23 @@ class MetalWorksMobileTheme extends DisplayListWatcher {
 		check.minTouchWidth = check.minTouchHeight = 88 * scale;
 	}
 
-	private function sliderInitializer(slider:Slider):Void
-	{
-		slider.trackLayoutMode = Slider.TRACK_LAYOUT_MODE_STRETCH;
-
-		if(slider.direction == Slider.DIRECTION_VERTICAL)
-		{
-			slider.width = 60 * scale;
-			slider.height = 210 * scale;
+	private function sliderInitializer(slider:Slider):Void {
+		slider.trackLayoutMode = Slider.TRACK_LAYOUT_MODE_MIN_MAX;
+		
+		var skinSelector:Scale9ImageStateValueSelector = new Scale9ImageStateValueSelector();
+		skinSelector.defaultValue = backgroundSkinTextures;
+		skinSelector.setValueForState(buttonDownSkinTextures, Button.STATE_DOWN, false);
+		skinSelector.setValueForState(backgroundDisabledSkinTextures, Button.STATE_DISABLED, false);
+		skinSelector.imageProperties = { textureScale: scale };
+		if(slider.direction == Slider.DIRECTION_VERTICAL) {
+			skinSelector.imageProperties.width = 60 * scale;
+			skinSelector.imageProperties.height = 210 * scale;
+		} else {
+			skinSelector.imageProperties.width = 210 * scale;
+			skinSelector.imageProperties.height = 60 * scale;
 		}
-		else
-		{
-			slider.width = 210 * scale;
-			slider.height = 60 * scale;
-		}
+		slider.minimumTrackProperties.stateToSkinFunction = skinSelector.updateValue;
+		slider.maximumTrackProperties.stateToSkinFunction = skinSelector.updateValue;
 	}
 
 	private function toggleSwitchInitializer(toggle:ToggleSwitch):Void

@@ -88,12 +88,23 @@ extern class ToggleSwitch extends FeathersControl, implements IToggle
 	public static var TRACK_LAYOUT_MODE_SINGLE:String;//"single";
 
 	/**
-	 * The switch's on and off track skins will by resized by changing
-	 * their width and height values. Consider using a special display
-	 * object such as a Scale9Image, Scale3Image or a TiledImage if the
-	 * skins should be resizable.
+	 * The toggle switch has two tracks, stretching to fill each side of the
+	 * scroll bar with the thumb in the middle. The tracks will be resized
+	 * as the thumb moves. This layout mode is designed for toggle switches
+	 * where the two sides of the track may be colored differently to better
+	 * differentiate between the on state and the off state.
+	 *
+	 * <p>Since the width and height of the tracks will change, consider
+	 * sing a special display object such as a <code>Scale9Image</code>,
+	 * <code>Scale3Image</code> or a <code>TiledImage</code> that is
+	 * designed to be resized dynamically.</p>
+	 *
+	 * @see feathers.display.Scale9Image
+	 * @see feathers.display.Scale3Image
+	 * @see feathers.display.TiledImage
 	 */
-	public static var TRACK_LAYOUT_MODE_STRETCH:String;//"stretch";
+	public static var TRACK_LAYOUT_MODE_ON_OFF:String;// = "onOff";
+
 
 	/**
 	 * The switch's on and off track skins will be resized and cropped
@@ -238,6 +249,10 @@ extern class ToggleSwitch extends FeathersControl, implements IToggle
 	@:meta(Inspectable(type="String",enumeration="single,stretch,scroll"))
 	/**
 	 * Determines how the on and off track skins are positioned and sized.
+	 *
+	 * @default TRACK_LAYOUT_MODE_SINGLE
+	 * @see #TRACK_LAYOUT_MODE_SINGLE
+	 * @see #TRACK_LAYOUT_MODE_ON_OFF
 	 */
 	public var trackLayoutMode(default, default):String;
 

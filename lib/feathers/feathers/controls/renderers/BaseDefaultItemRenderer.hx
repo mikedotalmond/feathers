@@ -30,6 +30,7 @@ import feathers.core.FeathersControl;
 import feathers.core.IFeathersControl;
 import feathers.core.ITextRenderer;
 import feathers.core.PropertyProxy;
+import starling.events.Event;
 
 import flash.events.TimerEvent;
 import flash.geom.Point;
@@ -52,19 +53,67 @@ extern class BaseDefaultItemRenderer extends Button
 	public static var DEFAULT_CHILD_NAME_ACCESSORY_LABEL:String;//"feathers-item-renderer-accessory-label";
 
 	/**
+	 * The accessory will be positioned above its origin.
+	 */
+	public static var ACCESSORY_POSITION_TOP:String;//="top";
+
+	/**
+	 * The accessory will be positioned to the right of its origin.
+	 */
+	public static var ACCESSORY_POSITION_RIGHT:String;//="right";
+
+	/**
+	 * The accessory will be positioned below its origin.
+	 */
+	public static var ACCESSORY_POSITION_BOTTOM:String;//="bottom";
+
+	/**
+	 * The accessory will be positioned to the left of its origin.
+	 */
+	public static var ACCESSORY_POSITION_LEFT:String;//="left";
+
+	/**
+	 * The accessory will be positioned manually with no relation to another
+	 * child. Use <code>accessoryOffsetX</code> and <code>accessoryOffsetY</code>
+	 * to set the accessory position.
+	 *
+	 * <p>The <code>accessoryPositionOrigin</code> property will be ignored
+	 * if <code>accessoryPosition</code> is set to <code>ACCESSORY_POSITION_MANUAL</code>.
+	 *
+	 * @see #accessoryOffsetX
+	 * @see #accessoryOffsetY
+	 */
+	public static var ACCESSORY_POSITION_MANUAL:String;//="manual";
+
+	/**
+	 * The layout order will be the label first, then the accessory relative
+	 * to the label, then the icon relative to both. Best used when the
+	 * accessory should be between the label and the icon or when the icon
+	 * position shouldn't be affected by the accessory.
+	 */
+	public static var LAYOUT_ORDER_LABEL_ACCESSORY_ICON:String;//="labelAccessoryIcon";
+
+	/**
+	 * The layout order will be the label first, then the icon relative to
+	 * label, then the accessory relative to both.
+	 */
+	public static var LAYOUT_ORDER_LABEL_ICON_ACCESSORY:String;//="labelIconAccessory";
+	
+		
+	/**
 	 * @private
 	 */
-	private static var HELPER_POINT:Point;//new Point();
+	@:protected private static var HELPER_POINT:Point;//new Point();
 
 	/**
 	 * @private
 	 */
-	private static var DOWN_STATE_DELAY_MS:Int;//250;
+	@:protected private static var DOWN_STATE_DELAY_MS:Int;//250;
 
 	/**
 	 * @private
 	 */
-	private static function defaultLoaderFactory():ImageLoader;
+	@:protected private static function defaultLoaderFactory():ImageLoader;
 
 	/**
 	 * Constructor.
@@ -74,32 +123,32 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * The value added to the <code>nameList</code> of the accessory label.
 	 */
-	private var accessoryLabelName:String;// = DEFAULT_CHILD_NAME_ACCESSORY_LABEL;
+	@:protected private var accessoryLabelName:String;// = DEFAULT_CHILD_NAME_ACCESSORY_LABEL;
 
 	/**
 	 * @private
 	 */
-	private var iconImage:Image;
+	@:protected private var iconImage:Image;
 
 	/**
 	 * @private
 	 */
-	private var accessoryImage:Image;
+	@:protected private var accessoryImage:Image;
 
 	/**
 	 * @private
 	 */
-	private var accessoryLabel:ITextRenderer;
+	@:protected private var accessoryLabel:ITextRenderer;
 
 	/**
 	 * @private
 	 */
-	private var accessory:DisplayObject;
+	@:protected private var accessory:DisplayObject;
 
 	/**
 	 * @private
 	 */
-	private var _data:Dynamic;
+	@:protected private var _data:Dynamic;
 
 	/**
 	 * The item displayed by this renderer.
@@ -109,22 +158,22 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _owner:IFeathersControl;
+	@:protected private var _owner:IFeathersControl;
 
 	/**
 	 * @private
 	 */
-	private var _delayedCurrentState:String;
+	@:protected private var _delayedCurrentState:String;
 
 	/**
 	 * @private
 	 */
-	private var _stateDelayTimer:Timer;
+	@:protected private var _stateDelayTimer:Timer;
 
 	/**
 	 * @private
 	 */
-	private var _useStateDelayTimer:Bool;//true;
+	@:protected private var _useStateDelayTimer:Bool;//true;
 
 	/**
 	 * If true, the down state (and subsequent state changes) will be
@@ -135,7 +184,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _itemHasLabel:Bool;//true;
+	@:protected private var _itemHasLabel:Bool;//true;
 
 	/**
 	 * If true, the label will come from the renderer's item using the
@@ -147,7 +196,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _itemHasIcon:Bool;//true;
+	@:protected private var _itemHasIcon:Bool;//true;
 
 	/**
 	 * If true, the icon will come from the renderer's item using the
@@ -156,10 +205,88 @@ extern class BaseDefaultItemRenderer extends Button
 	 */
 	public var itemHasIcon(default, default):Bool;
 	
+	
 	/**
 	 * @private
 	 */
-	private var _labelField:String;//"label";
+	@:protected private var _accessoryPosition:String;// = ACCESSORY_POSITION_RIGHT;
+
+	//@:Inspectable(type="String",enumeration="top,right,bottom,left,manual")]
+	/**
+	 * The location of the accessory, relative to one of the other children.
+	 * Use <code>ACCESSORY_POSITION_MANUAL</code> to position the accessory
+	 * from the top-left corner.
+	 *
+	 * @see #layoutOrder
+	 */
+	public var accessoryPosition(default, default):String;
+	
+	/**
+	 * @private
+	 */
+	@:protected private var _layoutOrder:String;// = LAYOUT_ORDER_LABEL_ICON_ACCESSORY;
+	
+	//@:Inspectable(type="String",enumeration="labelIconAccessory,labelAccessoryIcon")
+	/**
+	 * The accessory's position will be based on which other child (the
+	 * label or the icon) the accessory should be relative to.
+	 *
+	 * <p>The <code>accessoryPositionOrigin</code> property will be ignored
+	 * if <code>accessoryPosition</code> is set to <code>ACCESSORY_POSITION_MANUAL</code>.
+	 *
+	 * @see #accessoryPosition
+	 * @see #iconPosition
+	 * @see LAYOUT_ORDER_LABEL_ICON_ACCESSORY
+	 * @see LAYOUT_ORDER_LABEL_ACCESSORY_ICON
+	 */
+	public var layoutOrder(default, default):String;
+	
+	/**
+	 * @private
+	 */
+	@:protected private var _accessoryOffsetX:Float;// = 0;
+	
+	/**
+	 * Offsets the x position of the accessory by a certain number of pixels.
+	 */
+	public var accessoryOffsetX(default, default):Float;
+
+	/**
+	 * @private
+	 */
+	@:protected var _accessoryOffsetY:Float;// = 0;
+
+	/**
+	 * Offsets the y position of the accessory by a certain number of pixels.
+	 */
+	public var accessoryOffsetY(default, default):Float;
+
+	/**
+	 * @private
+	 */
+	@:protected private var _accessoryGap:Float;// = Number.POSITIVE_INFINITY;
+
+	/**
+	 * The space, in pixels, between the accessory and the other child it is
+	 * positioned relative to. Applies to either horizontal or vertical
+	 * spacing, depending on the value of <code>accessoryPosition</code>. If
+	 * the value is <code>NaN</code>, the value of the <code>gap</code>
+	 * property will be used instead.
+	 *
+	 * <p>If <code>accessoryGap</code> is set to <code>Number.POSITIVE_INFINITY</code>,
+	 * the accessory and the component it is relative to will be positioned
+	 * as far apart as possible.</p>
+	 *
+	 * @see #gap
+	 * @see #accessoryPosition
+	 */
+	public var accessoryGap(default, default):Float;
+	
+	
+	/**
+	 * @private
+	 */
+	@:protected private var _labelField:String;//"label";
 
 	/**
 	 * The field in the item that contains the label text to be displayed by
@@ -183,7 +310,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _labelFunction:Dynamic->String;
+	@:protected private var _labelFunction:Dynamic->String;
 
 	/**
 	 * A function used to generate label text for a specific item. If this
@@ -206,7 +333,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _iconField:String;//"icon";
+	@:protected private var _iconField:String;//"icon";
 
 	/**
 	 * The field in the item that contains a display object to be displayed
@@ -229,7 +356,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _iconFunction:Dynamic->DisplayObject;
+	@:protected private var _iconFunction:Dynamic->DisplayObject;
 
 	/**
 	 * A function used to generate an icon for a specific item.
@@ -254,7 +381,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _iconSourceField:String;//"iconTexture";
+	@:protected private var _iconSourceField:String;//"iconTexture";
 
 	/**
 	 * The field in the item that contains a texture to be used for the
@@ -312,7 +439,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _accessoryField:String;//"accessory";
+	@:protected private var _accessoryField:String;//"accessory";
 
 	/**
 	 * The field in the item that contains a display object to be positioned
@@ -410,7 +537,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _accessorySourceFunction:Dynamic->Texture;
+	@:protected private var _accessorySourceFunction:Dynamic->Texture;
 
 	/**
 	 * A function that returns a texture to be displayed in a
@@ -449,7 +576,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _accessoryLabelField:String;//"accessoryLabel";
+	@:protected private var _accessoryLabelField:String;//"accessoryLabel";
 
 	/**
 	 * The field in the item that contains a string to be displayed in a
@@ -485,7 +612,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _accessoryLabelFunction:Dynamic->String;
+	@:protected private var _accessoryLabelFunction:Dynamic->String;
 
 	/**
 	 * A function that returns a string to be displayed in a
@@ -525,7 +652,7 @@ extern class BaseDefaultItemRenderer extends Button
 	/**
 	 * @private
 	 */
-	private var _iconLoaderFactory:Dynamic->Image;// = defaultImageFactory;
+	@:protected private var _iconLoaderFactory:Dynamic->Image;// = defaultImageFactory;
 
 	/**
 	 * A function that generates an <code>Image</code> that uses the result
@@ -540,12 +667,12 @@ extern class BaseDefaultItemRenderer extends Button
 	 * @see #iconSourceField;
 	 * @see #iconSourceFunction;
 	 */
-	public var iconLoaderFactory(default, default):Dynamic->Image;
+	public var iconLoaderFactory(default, default):Void->ImageLoader;
 	
 	/**
 	 * @private
 	 */
-	private var _accessoryLoaderFactory:Dynamic->Image;// = defaultImageFactory;
+	@:protected private var _accessoryLoaderFactory:Dynamic->Image;// = defaultImageFactory;
 	
 	/**
 	 * A function that generates an <code>ImageLoader</code> that uses the result
@@ -562,12 +689,12 @@ extern class BaseDefaultItemRenderer extends Button
      * @see #accessorySourceField;
      * @see #accessorySourceFunction;
 	 */
-	public var accessoryLoaderFactory(default, default):Texture->Image;
+	public var accessoryLoaderFactory(default, default):Void->ImageLoader;
 	
 	/**
 	 * @private
 	 */
-	private var _accessoryLabelFactory:Void->ITextRenderer;
+	@:protected private var _accessoryLabelFactory:Void->ITextRenderer;
 
 	/**
 	 * A function that generates <code>ITextRenderer</code> that uses the result
@@ -623,7 +750,7 @@ extern class BaseDefaultItemRenderer extends Button
 	 *     <li><code>iconField</code></li>
 	 * </ol>
 	 */
-	private function itemToIcon(item:Dynamic):DisplayObject;
+	@:protected private function itemToIcon(item:Dynamic):DisplayObject;
 
 	/**
 	 * Uses the accessory fields and functions to generate an accessory for
@@ -639,49 +766,92 @@ extern class BaseDefaultItemRenderer extends Button
 	 *     <li><code>accessoryField</code></li>
 	 * </ol>
 	 */
-	private function itemToAccessory(item:Dynamic):DisplayObject;
+	@:protected private function itemToAccessory(item:Dynamic):DisplayObject;
+	
 	
 	/**
 	 * @private
 	 */
-	private function commitData():Void;
+	@:protected private function addIconWidth(width:Float, gap:Float):Float;
 	
 	/**
 	 * @private
 	 */
-	private function refreshAccessoryLabelStyles():Void;
-
+	@:protected private function addAccessoryWidth(width:Float, gap:Float):Float;
+		
+	/**
+		 * @private
+		 */
+	@:protected private function addIconHeight(height:Float, gap:Float):Float;
+		
 	/**
 	 * @private
 	 */
-	private function refreshIconTexture(texture:Texture):Void;
-
+	@:protected private function addAccessoryHeight(height:Float, gap:Float):Float;
+		
 	/**
 	 * @private
 	 */
-	private function refreshAccessorySource(source:Dynamic):Void;
+	@:protected private function positionRelativeToOthers(object:DisplayObject, relativeTo:DisplayObject, relativeTo2:DisplayObject, position:String, gap:Float):Void;
 	
 	/**
 	 * @private
 	 */
-	private function refreshAccessoryLabel(label:String):Void;
+	@:protected private function commitData():Void;
+	
+	/**
+	 * @private
+	 */
+	@:protected private function replaceIcon(newIcon:DisplayObject):Void;
+		
+	/**
+	 * @private
+	 */
+	@:protected private function replaceAccessory(newAccessory:DisplayObject):Void;
+		
+		
+	/**
+	 * @private
+	 */
+	@:protected private function refreshAccessoryLabelStyles():Void;
 
 	/**
 	 * @private
 	 */
-	private function handleOwnerScroll():Void;
+	@:protected private function refreshIconTexture(texture:Texture):Void;
 
 	/**
 	 * @private
 	 */
-	private function accessoryLabelProperties_onChange(proxy:PropertyProxy, name:String):Void;
+	@:protected private function refreshAccessorySource(source:Dynamic):Void;
+	
+	/**
+	 * @private
+	 */
+	@:protected private function refreshAccessoryLabel(label:String):Void;
 
 	/**
 	 * @private
 	 */
-	private function stateDelayTimer_timerCompleteHandler(event:TimerEvent):Void;
+	@:protected private function handleOwnerScroll():Void;
+
 	/**
 	 * @private
 	 */
-	private function accessory_touchHandler(event:TouchEvent):Void;
+	@:protected private function accessoryLabelProperties_onChange(proxy:PropertyProxy, name:String):Void;
+
+	/**
+	 * @private
+	 */
+	@:protected private function stateDelayTimer_timerCompleteHandler(event:TimerEvent):Void;
+	/**
+	 * @private
+	 */
+	@:protected private function accessory_touchHandler(event:TouchEvent):Void;
+	
+	/**
+	 * @private
+	 */
+	@:protected private function loader_completeOrErrorHandler(event:Event):Void;
+		
 }

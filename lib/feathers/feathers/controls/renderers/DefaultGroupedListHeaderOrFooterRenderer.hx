@@ -24,6 +24,8 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 package feathers.controls.renderers;
 import feathers.controls.GroupedList;
+import feathers.controls.ImageLoader;
+import feathers.controls.Label;
 import feathers.core.FeathersControl;
 import feathers.core.ITextRenderer;
 import feathers.core.PropertyProxy;
@@ -73,11 +75,6 @@ extern class DefaultGroupedListHeaderOrFooterRenderer extends FeathersControl, i
 	 * label.
 	 */
 	public static var DEFAULT_CHILD_NAME_CONTENT_LABEL:String;//"feathers-header-footer-renderer-content-label";
-
-	/**
-	 * @private
-	 */
-	private static function defaultImageFactory(texture:Texture):Image;
 
 	/**
 	 * The value added to the <code>nameList</code> of the content label.
@@ -404,23 +401,24 @@ extern class DefaultGroupedListHeaderOrFooterRenderer extends FeathersControl, i
 	/**
 	 * @private
 	 */
-	private var _contentImageFactory:Dynamic;// = defaultImageFactory;
+	@:protected private var _contentLoaderFactory:Void->ImageLoader;// = defaultImageFactory;
 
 	/**
-	 * A function that generates an <code>Image</code> that uses the result
-	 * of <code>contentTextureField</code> or <code>contentTextureFunction</code>.
-	 * Useful for transforming the <code>Image</code> in some way. For
-	 * example, you might want to scale it for current DPI.
+	 * A function that generates an <code>ImageLoader</code> that uses the result
+	 * of <code>contentSourceField</code> or <code>contentSourceFunction</code>.
+	 * Useful for transforming the <code>ImageLoader</code> in some way. For
+	 * example, you might want to scale it for current DPI or apply pixel
+	 * snapping.
 	 *
-	 * @see #contentTextureField;
-	 * @see #contentTextureFunction;
+	 * @see #contentSourceField
+	 * @see #contentSourceFunction
 	 */
-	public var contentImageFactory(default, default):Dynamic;
+	public var contentLoaderFactory(default, default):Void->ImageLoader;
 
 	/**
 	 * @private
 	 */
-	private var _contentLabelFactory:Dynamic;
+	private var _contentLabelFactory:Void->Label;
 
 	/**
 	 * A function that generates <code>Label</code> that uses the result
@@ -430,7 +428,7 @@ extern class DefaultGroupedListHeaderOrFooterRenderer extends FeathersControl, i
 	 * @see #contentLabelField;
 	 * @see #contentLabelFunction;
 	 */
-	public var contentLabelFactory(default, default):Dynamic;
+	public var contentLabelFactory(default, default):Void->Label;
 	
 
 	/**

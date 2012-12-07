@@ -61,4 +61,5 @@ extern interface IFeathersControl
 	function hasEventListener(type:String):Bool;
 	function setSize(width:Float, height:Float):Void;
 	function validate():Void;
+	function dispose():Void;
 }
