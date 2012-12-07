@@ -18,7 +18,6 @@ To use it, you also need the starling library, a copy of which is included in li
 
 Note: Feathers requires a more recent version of Starling than the one currently on haxelib. 
 I've updated the version in lib/starling with the latest changes and a rebuilt library swf.
-(Joshua Granick, creator of the Starling externs, has pulled my updates across to the main repository, so you can just use that if you want.)
 
 * Starling externs by Joshua Granick: [https://github.com/jgranick/starling]
 * My fork: [https://github.com/mikedotalmond/starling]
