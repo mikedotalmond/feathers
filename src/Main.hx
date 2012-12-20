@@ -2,6 +2,7 @@ package ;
 
 import feathers.controls.Button;
 import feathers.system.DeviceCapabilities;
+import flash.events.Event;
 
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
@@ -23,18 +24,18 @@ import starling.core.Starling;
 
 @:final class Main {
 
-	public static var viewport(default, null):Rectangle;
-	
 	private var _starling:Starling;
+	private var sharedContext:SharedStage3DContext;
 	
 	public function new() {
 		
-		if (Capabilities.cpuArchitecture == "ARM") { // mobile - fullscreen
-			viewport = new Rectangle(0, 0, Lib.current.stage.fullScreenWidth, Lib.current.stage.fullScreenHeight);
-		} else {
+		if (Capabilities.cpuArchitecture != "ARM") { // not mobile
 			DeviceCapabilities.dpi = 132; // fake a higher dpi on desktop
-			viewport = new Rectangle(0, 0, Lib.current.stage.stageWidth, Lib.current.stage.stageHeight);
 		}
+		
+		sharedContext = new SharedStage3DContext(Lib.current.stage);
+		sharedContext.ready.addOnce(startup);
+		sharedContext.requestDraw.add(starlingRender);
 		
 		/*
 		 * The feathers Haxe extern library can be found in lib/feathers
@@ -64,9 +65,24 @@ import starling.core.Starling;
 		 * I also ported the MetalWorksMobileTheme as part of this example - lib/MetalWorksMobileTheme
 		 * */
 		
-		_starling = new Starling(feathers.examples.componentsExplorer.Main, Lib.current.stage, viewport);
-		_starling.start();
 	}
+	private function startup() {		
+		_starling = new Starling(feathers.examples.componentsExplorer.Main, sharedContext.stage, sharedContext.fullViewport, sharedContext.stage3D);
+		_starling.start();
+		
+		Lib.current.stage.addEventListener(Event.ENTER_FRAME, enterFrame);
+	}
+	
+	private function enterFrame(e:Event):Void {
+		sharedContext.update(0,0);
+	}
+	
+	
+	private function starlingRender(dt,t):Void {
+		_starling.nextFrame();
+	}
+	
+	
 	
 	static function main() {
 		
