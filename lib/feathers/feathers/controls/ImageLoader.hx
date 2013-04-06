@@ -88,7 +88,7 @@ public function new():Void;
 	 * @private
 	 */
 	@:protected private var _source:Dynamic;
-	public var source(default, default):Bool;// = false;
+	public var source(default, default):Dynamic;// = false;
 	
 	
 	/**
